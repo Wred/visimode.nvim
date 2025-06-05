@@ -10,6 +10,7 @@ Neovim plugin to make insert mode more visible.
         "InsertEnter",
     },
     opts = {
+	    lighten_by = 0.9,
     }
 }
 ```

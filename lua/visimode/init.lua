@@ -4,6 +4,7 @@
 -- 	au InsertLeave * setlocal winhighlight=
 
 local config = require("visimode.config")
+local Color = require("visimode.import.colors.colors")
 
 ---@class visimode.Init
 local M = {}
@@ -11,12 +12,21 @@ local M = {}
 local AUGROUP = "VisimodeCommands"
 
 M.setup = function (opts)
-	print "visimode setup called."
 	config.setup(opts)
+
+	local bg_color_original = vim.api.nvim_get_hl(0, {
+		name = "Normal",
+		create = false,
+	}).bg
+
+	local bg_color_new = Color.new(string.format("#%x", bg_color_original))
+	bg_color_new = bg_color_new:lighten_by(config.opts.lighten_by)
+
+	-- print ("old color: ", string.format("#%x", bg_color_original), "new color: ", bg_color_new:to_rgb())
 
 	vim.api.nvim_create_augroup(AUGROUP, {clear = true})
 
-	vim.api.nvim_set_hl(0, "NormalInsert", {bg="gray"})
+	vim.api.nvim_set_hl(0, "NormalInsert", {bg = bg_color_new:to_rgb()})
 
 	vim.api.nvim_create_autocmd('InsertEnter', {
 		group = AUGROUP,

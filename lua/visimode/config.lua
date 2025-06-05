@@ -3,7 +3,7 @@
 --
 
 local DEFAULT_OPTS = { -- BEGIN_DEFAULT_OPTS
-	on_attach = "default",
+	lighten_by = 0.9,
 	log = {
 		enable = false,
 		truncate = false,
@@ -19,7 +19,7 @@ local FIELD_SKIP_VALIDATE = {
 }
 
 local ACCEPTED_TYPES = {
-	on_attach = { "function", "string" },
+	lighten_by = { "number" },
 }
 
 local ACCEPTED_STRINGS = {
@@ -106,7 +106,7 @@ end
 
 
 local M = {
-	config = {}
+	opts = {}
 }
 
 ---@param conf table|nil
@@ -119,7 +119,7 @@ function M.setup(conf)
 	validate_options(conf)
 	local opts = merge_options(conf)
 
-	M.config = opts
+	M.opts = opts
 end
 
 return M
