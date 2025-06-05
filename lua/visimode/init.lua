@@ -1,35 +1,48 @@
-local M = {}
-
-M.setup = function ()
-	vim.api.nvim_set_hl(0, "NormalInsert", {bg="gray"})
+-- Basically the equivalent of:
 -- 	hi NormalInsert guibg=gray
 -- 	au InsertEnter * setlocal winhighlight=Normal:NormalInsert
 -- 	au InsertLeave * setlocal winhighlight=
+
+local config = require("visimode.config")
+
+---@class visimode.Init
+local M = {}
+
+local AUGROUP = "VisimodeCommands"
+
+M.setup = function (opts)
+	print "visimode setup called."
+	config.setup(opts)
+
+	vim.api.nvim_create_augroup(AUGROUP, {clear = true})
+
+	vim.api.nvim_set_hl(0, "NormalInsert", {bg="gray"})
+
+	vim.api.nvim_create_autocmd('InsertEnter', {
+		group = AUGROUP,
+		callback = function()
+			vim.api.nvim_cmd({
+				cmd = "setlocal",
+				args = {
+					"winhighlight=Normal:NormalInsert"
+				},
+			},{})
+		end
+	})
+
+	vim.api.nvim_create_autocmd('InsertLeave', {
+		group = AUGROUP,
+		callback = function()
+			vim.api.nvim_cmd({
+				cmd = "setlocal",
+				args = {
+					"winhighlight="
+				},
+			},{})
+		end
+	})
+
 end
-
-vim.api.nvim_create_autocmd('InsertEnter', {
-	callback = function()
-		vim.api.nvim_cmd({
-			cmd = "setlocal",
-			args = {
-				"winhighlight=Normal:NormalInsert"
-			},
-		},{})
-		-- vim.api.nvim_set_hl(0, "Normal", "NormalInsert")
-	end
-})
-
-vim.api.nvim_create_autocmd('InsertLeave', {
-	callback = function()
-		vim.api.nvim_cmd({
-			cmd = "setlocal",
-			args = {
-				"winhighlight="
-			},
-		},{})
-		-- vim.api.nvim_set_hl(0, "Normal", {})
-	end
-})
 
 -- function M.vim.background_blend(color, strength)
 -- 	local bg_color = vim.api.nvim_get_hl_by_name("Normal", true).background or "3213215"
