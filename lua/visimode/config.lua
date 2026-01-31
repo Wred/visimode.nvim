@@ -3,6 +3,7 @@
 --
 
 local DEFAULT_OPTS = { -- BEGIN_DEFAULT_OPTS
+	enabled = true,
 	lighten_by = 0.9,
 	log = {
 		enable = false,
@@ -19,6 +20,7 @@ local FIELD_SKIP_VALIDATE = {
 }
 
 local ACCEPTED_TYPES = {
+	enabled = { "boolean" },
 	lighten_by = { "number" },
 }
 
@@ -95,7 +97,7 @@ local function validate_options(conf)
 	validate(conf, DEFAULT_OPTS, ACCEPTED_STRINGS, ACCEPTED_TYPES, "")
 
 	if msg then
-		print (msg .. "\n\nsee :help nvim-tree-opts for available configuration options")
+		print (msg .. "\n\nsee :help visimode for available configuration options")
 	end
 end
 
@@ -112,7 +114,7 @@ local M = {
 ---@param conf table|nil
 function M.setup(conf)
 	if vim.fn.has("nvim-0.9") == 0 then
-		print ("nvim-tree.lua requires Neovim 0.9 or higher")
+		print ("visimode.nvim requires Neovim 0.9 or higher")
 		return
 	end
 
