@@ -1,6 +1,8 @@
 # visimode.nvim
 Neovim plugin to make insert mode more visible.
 
+![visimode demo](images/visimode-demo.gif)
+
 ## Install with lazy
 
 ```lua
